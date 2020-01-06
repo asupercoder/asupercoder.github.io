@@ -1,0 +1,596 @@
+main先压栈
+执行car c=new Car()时，在堆里开辟内存空间，指向内存地址0x1234，
+对象在堆内存创建后，类的成员变量，跟随对象进入到堆内存中，赋默认值，执行c.color="无色"，
+堆内存中改变数值，c调用run方法，run就要进栈执行，system.out.println(color),c指向的空间中color变量，
+执行完 run()弹栈，释放
+main()弹栈，释放
+c不指向0x1234,
+0x1234变成垃圾，不会自动释放，等待虚拟机清理（自动）
+
+封装
+    private 私有
+    this 成员变量 局部变量 同名
+
+继承
+    class xxx extends 父类{}
+    子类要访问父类的成员变量，用super     super.num
+    父类/子类方法名一样时，会出现覆盖，override 重写
+        public void aaa(){
+            super.aaa()
+        }
+
+抽象类
+    abstract class 类名{
+        public abstract 返回值类型 方法名(参数);
+    }
+    覆盖后才能使用为对象
+
+接口
+    public interface 接口名{
+        抽象方法1;
+    }
+    使用
+        class 类名（实现功能） implements 接口（定义功能）{重写}
+
+    public static final int num=3;
+    public abstract void show();
+
+    接口可以多继承
+
+    class Zi extends Fu implements Inter{}
+        已继承一个父类，又要扩展额外的功能
+
+    interface Zi extends Fu1,Fu2,Fu3{}
+        接口与接口之间可以多继承
+
+
+面向对象三大特性：封装、继承、多态
+
+多态
+    父类的引用变量指向子类对象
+        父类类型变量名=new 子类类型();
+        变量名.方法名();
+
+        抽象类 变量名 = new 抽象类子类();
+
+        同一个父类别不同的子类重写，调用方法时，调用的为各个子类重写的方法。
+            Person P1 = new Student();
+            Person P2 = new Teacher();
+            P1.work();     ----->Student重写的work。
+            P2.work();     ----->Teacher重写的work。
+
+        
+
+    
+    instanceof 某个对象是否属于某种数据类型
+
+    向上转 Fu a=new Zi();
+    向下转 Zi b=(Zi)a;
+
+
+构造方法
+    方法名必须和类名一致，没有返回值。
+    public class Person{
+        private int age;
+        Person(int age){
+            this.age=age;
+        }
+    }
+    使用
+        Person P = new Person(20);
+    
+    构造方法是专门用来创建对象的
+    之前没有指定构造方法，是因为编译器会自动给class文件中添加默认的构造方法。如果我们显示指定了构造方法，那么在编译java原文件时，
+    编译器就不会给class文件中添加默认构造方法。
+
+    一个雷中可以有多个构造方法，多个构造方法是以重载的形式存在的。
+    构造方法是可以被private修饰的，作用：其他程序无法创建该类的对象。
+        class Person{
+            private int age;
+            private String name;
+            private Person(){
+
+            }
+            Person(int a){
+                age=a;
+            }
+            Person(String nm,int a){
+                name=nm;
+                age=a;
+            }
+        }
+    构造方法和一般方法的区别
+        构造方法在创建对象时执行一次，而且只执行一次。
+        一般方法是在对象创建后，需要使用时才被对象调用，并可以被多次调用
+
+this关键字
+    构造方法之间的调用，可以通过this关键字来完成。
+    格式
+        this(参数列表);
+    class Person{
+        private int age;
+        private String name;
+        //无参构造函数
+        Person(){
+
+        }
+        //给姓名初始化的构造方法
+        Person(String nm){
+            name=nm;
+        }
+        Person(String nm,int a){
+            this(nm);
+            age=a;
+        }
+    }
+
+    成员变量和局部变量同名问题
+    成员变量前+this.来区分成员变量和局部变量
+
+super
+    创建子类对象，父类的构造方法会先执行，因为子类中所有构造方法的第一行有默认的隐式super();
+    格式
+        调用本类中的构造方法
+            this(实参列表);
+        调用父类中的空参数构造方法
+            super();
+        调用父类中的有参数构造方法
+            super(实参列表);
+
+
+        如果父类有参数构造方法，就要写空参构造方法，否则子类的构造方法会找不到父类的空参构造方法
+
+        super(子类参数) 直接调用父类的参数构造方法
+            
+final
+    final修饰的类不可以被继承，但是可以继承其他类
+        class YY{}
+        final class Fu extends YY{}  可以继承
+        class Zi extends Fu     错的，不可以被继承
+
+    final修饰的方法不可以被覆盖，但父类中没有被final修饰的方法，子类覆盖后可以加final。
+
+    final修饰的变量称为常量，只能赋值一次。
+        final int i=20;
+    引用类型的变量值为对象地址值，地址值不能更改，但是地址内的对象属性值可以修改。
+        final Person p = new Person();
+        Person p2 = new Person();
+        p=p2；    错的，final修饰的变量p，所记录的地址值不能改变   
+        p.name="小明";    //可以，更改P对象中name属性值
+        p不能为别的对象，而p对象中的name或age属性值可更改。
+    修饰成员变量，需要在创建对象前赋值，否则报错。（当么有显式赋值时，多个构造方法的均需要为其赋值。
+        class Demo{
+            final int m=100;
+            final int n;
+            public Demo(){
+                n=100;  //可以在创建对象时所调用的构造方法中，为变量n赋值。
+            }
+        }
+
+static关键字
+    不创建对象，就能调用。
+    static是静态修饰符。
+    特点
+        属于类，不属于这个类的某个对象，其中一个对象修改了static值，
+        其他对象值也跟着变，既多个对象共享同一个static成员变量。
+    
+    注意事项
+        优于对象存在，只能访问静态，不能使用this/super。静态修饰的内容存于静态区。
+            static num=1;
+            System.out.println(this.num);   //是错的
+        同一个类中，静态成员只能访问静态成员
+            public int num=100;
+            public static int count=200;
+            public static void method(){
+                System.out.println(num); //是错的
+                System.out.println(count);
+            }
+    main方法为静态方法仅仅为程序执行入口，它不属于任何一个对象，可以定义在任意类中。
+
+静态常量
+    public static final 变量名大写
+        public static final String NAME="abc";
+    
+    当使用时，不需要创建对象，直接使用类名来访问。
+    注意
+        接口中的每个成员变量都默认使用public static final修饰。
+        所有接口中的成员变量已是静态常量，由于接口没有构造方法，所以必须显示赋值，
+            可以直接用接口名访问。
+                interface Inter{
+                    public static final int COUNT=100;
+                }
+                访问 Inter.COUNT
+
+匿名对象
+    创建对象时，只有创建对象的语句，没有把对象赋值给某个变量。
+        创建一个普通对象
+            Person P = new Person():
+        创建一个匿名对象
+            new Person();
+    特点
+        直接使，没有变量名。
+            new Person().eat()  //eat方法被一个没有名字的Person对象调用了。
+        只能使用一次。
+            new Person().eat(); 创建一个匿名对象，调用eat方法
+            new Person().eat(); 想再次调用eat方法，重新创建了一个匿名对象
+        匿名对象可以作为方法接受的参数、方法返回值使用。
+            class Demo{
+                public static Person getPerson(){
+                    return new Person(); //匿名对象作为返回值
+                }
+                public static void method(Person P){
+
+                }
+            }
+            class Test{
+                public static void main(String[] args){
+                    Person P=new Person();        //正常的创建新对象
+                    Person p=Demo.getPerson();   //调用getPerson方法，得到一个Person对象
+                    Demo.method(p);              //正常的对象传递给Demo.method方法  
+                    Demo.method(new Person());   //匿名对象作为接收的参数
+                }
+            }
+
+内部类
+    将类写在其他类的内部，可以写在其他类的成员位置和局部位置，这时写在其他类内部的类就称为内部类，其他类也称为外部类。
+    什么时候使用内部类
+        在描述事物时，若一个事物内部还包含其他可能包含的事物，比如在描述汽车时，汽车中还包含着发动机，这时发动机就可以使用内部类来描述。
+            class 汽车{      //外部类
+                class 发动机    //  内部类
+            }
+    内部类的分类
+        内部类分为成员内部类与局部内部类，定义内部类时，就是一个定义正常类的过程，同样包括各种修饰符、继承与实现关系等，在内部类中可以直接访问外部类的所有成员。
+    成员内部类
+        定义在外部类的成员位置，与类中的成员变量类似，可通过外部类对象进行访问。
+        格式
+            class 外部类{
+                修饰符 class 内部类{
+                    //其他代码
+                }
+            }
+        访问方式
+            外部类名.内部类名 变量名 = new 外部类名().new 内部类名();
+    局部内部类
+        定义在外部类方法中的局部位置。与访问方法中的局部变量相似，可通过调用方法进行访问。
+        格式
+            class 外部类{
+                修饰符 返回值类型 方法名(参数){
+                    class 内部类{
+                        //其他代码
+                    }
+                }
+            }
+        访问方式
+            在外部类方法中，创建内部类对象，进行访问
+        代码演示
+            定义类
+                class Party{
+                    public void puffBall(){
+                        class Ball{
+                            public void puff(){
+                                System.out.println("气球膨胀了");
+                            }
+                        }
+                        new Ball().puff();       //创建内部类对象，调用puff方法
+                    }
+                }
+            访问内部类
+                Party p = new Party();
+                p.puffBall();
+        
+匿名内部类（内部类的实际使用）
+    是局部内部类的一种
+    概念
+        临时定义某一指定类型的子类
+        定义后即可创建刚刚定义的这个子类的对象
+    作用
+        创建某个类型子类对象的快捷方式
+    格式
+        new 父类或接口(){
+            //进行方法重写
+        }
+    演示
+        public abstract class Person{       //已存在的父类
+            public abstract void eat();
+        }
+        
+        Person P = new Person(){               //定义并创建该父类的子类对象，并用多态的方式赋值给父类引用变量
+            public void eat(){
+                System.out.println("我吃了");
+            }
+        };
+        P.eat();
+    不定义变量引用演示
+        new Person(){
+            public void eat(){
+            System.out.println("我吃了~");
+            }
+        }.eat();
+
+包的声明与访问
+    概念
+        文件夹
+    格式
+        package 包名.包名.包名.......;   //公司网址，通常反写
+    注意事项
+        必须写在第一行
+        包的访问与访问权限密切相过，既类用public修饰
+    导包
+        import java.util.Scanner;
+        import java.util.Random;
+
+访问修饰符
+                            同一类    同一包中（子类与无关类）      不同包的子类       不同包中的无关类
+        public公共的            v          v                            v                 v 
+        protected受保护的       v          v                            v
+        default默认的           v          V
+        private私有的           v
+    
+    注意事项
+        如果类用public修饰，则类名必须与文件名相同。一个文件中只能有一个public修饰的类。
+
+代码块
+    局部代码块
+        以{}划定的代码区域，只需要关注作用域的不同即可。
+        方法和类都是以代码块的方式划定边界的。
+    构造代码块
+        定义在类的成员位置的代码块
+        优于构造方法执行，构造代码块用于执行所有对象均需要的初始化动作。
+        每创建一个对象均会执行一次构造代码块。                  （测试了下final也可以被赋值）
+            public class Person{
+                private String name;
+                private int age;
+                {
+                    System.out.println("构造代码块执行了");
+                }
+            }
+    静态代码块
+        定义在成员位置，使用static修饰的代码块。
+        特点
+            优于主方法执行、优先于构造方法执行，当以任意形式第一次使用到该类时执行。
+            该类不管创建多少对象，静态代码块只执行一次。
+            可用于给静态变量赋值，用来给类进行初始化。         （测试了下static final也可以被赋值）
+            演示
+                public class Person{
+                    private String name;
+                    private int age;
+                    static{
+                        System.out.println("静态代码块执行了");
+                    }
+                }
+
+Eclipse的应用
+    常用快捷操作
+        Ctrl+T：查看所选中类的继承树
+        查看所选中类的源代码：Ctrl+滑动鼠标点击类名，按F3查看。
+        查看所选中方法的源代码：同上。
+
+    注释
+        代码
+            package cn.itcast;
+            /**
+            * 我的工具类
+            * @author Li
+            * @version 1.0版本
+            */
+            public class Tool {
+            /**
+            * 返回两个整数的累加和
+            * @param num1 第一个数
+            * @param num2 第二个数
+            * @return 返回累加和
+            */
+            public static int getSum(int num1, int num2){
+                return num1 + num2;
+                }
+            }
+        导出步骤
+            File-Export-Java-Javadoc-Finish
+    
+    导出jar包
+        右键包 Export Java Jarfile 写名字
+    
+    导入jar包
+        过程是将jar包加入到项目的.classpath文件中，让项目识别，便可以使用jar包中所有的.class文件类。
+        步骤
+            1.项目根文件夹下创建lib文件夹，用于统一管理所有的jar文件。
+            2.把jar文件复制到lib文件夹中。
+            3.右键点击jar文件，点击BuildPath,选择Add to Build Path，
+                此时查看项目根文件夹下的.classpath文件，（<classpathentry kind="lib" path="lib/NEW.jar"/>）
+                发现新加入的jar包路径被配置到了该文件中。说明可以使用jar包中所有类了。
+    使用jar包
+        import 包名.类名
+        构造方法要public
+
+不同修饰符的细节
+    public      权限修饰符      公共访问        类，方法，成员变量。
+    protected   权限修饰符      受保护访问      方法，成员变量。
+    不写        权限修饰符      默认访问        类，方法，成员变量。
+    private     权限修饰符      私有访问方法    成员变量。
+    static      静态修饰符                      类，方法，成员变量，局部变量。
+    abstract    抽象修饰符                      类，方法。
+
+    编写时，权限修饰符放在所有修饰符之前，不同的权限修饰符不能同时使用。
+    abstract与private不能同时使用
+    abstract与static不能同时使用
+    abstract与final不能同时使用
+
+    修饰【类】能使用的修饰符
+        public 默认 final abstract
+        使用最多的是public
+            public class Demo{}  //最常用
+            class Demo2{}
+            public final class Demo2{}
+            public abstract class Demo4{}
+        
+    修饰【成员变量】能使用的修饰符
+        public protected 默认 private final static
+        使用最多的是private
+            public int count = 100;
+            protected int count2 = 100;
+            int count3 = 100;
+            private int count4 = 100;
+            public final int count5 = 100;
+            public static int count5 = 100;
+    
+    修饰【构造方法】能使用的修饰符
+        public protected 默认 private
+        使用最多的是public
+            public Demo(){}  //最常用的方式
+            protected Demo(){}
+            Demo(){}
+            private Demo(){}
+    
+    修饰【成员方法】能够使用的修饰符
+        public protected 默认 private final static abstract
+        使用最多的是public
+            public void method1(){}         //最常用的方式
+            protected void method2(){}
+            void method3(){}
+            private void method4(){}
+            public fianl void method5(){}
+            public static void method6(){}     //最常用的方法
+            public abstract void method7(){}    //最常用的方式
+    
+自定义数据类型的使用
+    辨析成员变量与方法参数的设计定义
+        定义长方形类，求周长与面积的方法
+            变量是该类一部分，定义成员变量
+        定义计算类，求和
+            变量不是类的一部分，而仅仅是功能当中需要参与计算的数，定义为形参变量
+    
+    类作为方法参数与返回值
+        类作为方法参数（常见）
+            class Person{
+                public void show(){
+                    System.out.println("show方法执行了");
+                }
+            public class Test{
+                public static void main(String[] args){
+                    Person p = new Person();
+                    method(p);
+                }
+            }
+            public static void method(Person p){
+                p.show();
+            }
+            }
+    类作为方法返回值（常见）
+        写程序调用方法时，我们以后会经常碰到返回一个类类型的返回值，这时该方法要返回一个该类的对象。
+            class Person{
+                public void show(){
+                    System.out.println("show方法执行了");
+                }
+            }
+            public class Test{
+                public static void main(String[] args){
+                    Person p = method();
+                    p.show();
+                }
+            }
+            public static Person method(){
+                Person p = new Person();
+                return p;
+            }
+
+    抽象类作为方法参数与返回值
+        抽象类作为方法参数（常见）
+            abstract class Person{
+                public abstract void show();
+            }
+            class Student extends Person{
+                public void show(){
+                    System.out.println("重写show方法");
+                }
+            }
+            //测试类
+            public class Test{
+                public static void main(String[] args){
+                    //通过多态的方式，创建一个Person类型的变量，而这个对象实际是Student
+                    Person p = new Student();
+                    method(p);
+                }
+            }
+            public static void method(Person p){
+                //通过p变量调用show方法,这时实际调用的是Student对象中的show方法
+                p.show();
+            }
+        抽象类作为返回值（不太常见）
+            abstract class Person{
+                public abstract void show();
+            }
+            class Student extends Person{
+                public void show(){
+                    System.out.println("重写了show方法");
+                }
+            }
+            //测试类
+            public class Test {
+                public static void main(String[] args) {
+                    //调用method方法，获取返回的Person对象
+                    Person p = method();
+                    //通过p变量调用show方法,这时实际调用的是Student对象中的show方法
+                    p.show();
+                }
+                
+                //定义一个方法method，用来获取一个Person对象，在方法中完成Person对象的创建
+                public static Person method(){
+                    Person p = new Student();
+                    return p;
+                }
+            }
+    接口作为方法参数与返回值
+        接口作为方法参数(多见)
+            //接口
+            interface Smoke{
+                public abstract void smoking();
+            }
+            class Student implements Smoke{
+                @Override
+                public void smoking() {
+                    System.out.println("课下吸口烟，赛过活神仙");
+                }
+            }
+            //测试类
+            public class Test {
+                public static void main(String[] args) {
+                    //通过多态的方式，创建一个Smoke类型的变量，而这个对象实际是Student
+                    Smoke s = new Student();
+                    //调用method方法
+                    method(s);
+                }
+                
+                //定义一个方法method，用来接收一个Smoke类型对象，在方法中调用Smoke对象的show方法
+                public static void method(Smoke sm){//接口作为参数
+                    //通过sm变量调用smoking方法，这时实际调用的是Student对象中的smoking方法
+                    sm.smoking();
+                }
+            }
+        接口作为方法返回值
+            //接口
+            interface Smoke{
+                public abstract void smoking();
+            }
+            class Student implements Smoke{
+                @Override
+                public void smoking() {
+                    System.out.println("课下吸口烟，赛过活神仙");
+                }
+            }
+            //测试类
+            public class Test {
+                public static void main(String[] args) {
+                    //调用method方法，获取返回的会吸烟的对象
+                    Smoke s = method();
+                    //通过s变量调用smoking方法,这时实际调用的是Student对象中的smoking方法
+                    s.smoking();
+                }
+                
+                //定义一个方法method，用来获取一个具备吸烟功能的对象，并在方法中完成吸烟者的创建
+                public static Smoke method(){
+                    Smoke sm = new Student();
+                    return sm;
+                }
+            }
+
+

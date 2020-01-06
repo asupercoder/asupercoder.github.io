@@ -1,0 +1,239 @@
+java SE标准版
+Java EE企业版
+JDK开发环境
+JRE运行环境（包括了JVM：实现跨平台需依赖Java虚拟机）
+
+*.java   编译器   *.class     解释器
+源文件   compiler 字节码文件   interpreter
+
+
+执行  javac  *.java
+然后  java  *
+
+注释
+    单行注释   //  xxxxxx
+    多行注释   /* xxxxxx
+                 xxxxx */
+    文档注释   /** xxxxx  */
+
+关键字
+    标识符    A-Z a-z  _ $
+            不能数字开头，不能为关键字
+            类：首字母大写，第二个单词首字母大写
+            方法：首字母小写，第二个单词首字母大写
+
+数据类型
+    基本数据类型：整数、小数、字符、布尔
+    引用数据类型：数组、类、接口
+
+常量
+    整数：十进制、二进制（前面+0B）、十六进制、八进制（0开头）
+    小数：浮点
+    布尔：true、false
+    字符：'1'（不可空）
+    字符串："qweqwe"？（可空）
+
+变量
+    基本类型 4类8种
+    整形：byte short int* long(后缀L)
+            1   2     4     8
+    浮点型：float(F) double*(D)
+                4      8
+    字符串： char
+             2 
+    布尔型：boolean
+            1 
+
+定义变量的语法格式
+    数据类型 变量名 = 数据值;
+     int      a   =   100;
+    String    s   =  "Java";(String属于引用类型，定义方式和基本类型一样)
+
+    注意：①{int i=1;}
+            System.out.println(i);
+            是错的，读不到i    
+        
+        ②不可重复定义
+
+自动转换
+    byte -> short -> int -> long -> float -> double
+    小可直接转大   boolean不可转
+
+强制转换
+    double d = 3.14;
+    int i=int(d);
+    大转小
+
+运算
+    ("="+5+5)     ->     =55
+    (5+5)         ->      10
+
+    +   -  *  /   %   !=
+    加 减  乘 除  求余 不等于
+
+    a=5;
+    ++a=6;   ++a=5;
+
+    byte a=1;
+    a=a+1;  (出错 byte + int)
+
+    a=(byte)(a+1); (对的)   等同于  a+=1
+
+    & 与 需要2个都通过
+    | 或 需要1个
+    ^ 非 需不同
+    ！取反 !false=true
+    && 短路与 一边flase 另一边不运行
+    || 短路或 一边是true 另一边不运行
+
+    三元运算符
+        布尔表达式?结果1:结果2
+
+引用数据类型
+    类型 变量名 = new 类型();
+
+    输入 Scanner
+    import java.util.Scanner;
+    Scanner sc=new Scanner(System.in);
+    int a =sc.nextInt();
+    int b=sc.next();
+
+    随机 random
+    import java.util.random;
+    Random rd = new Random();
+    int a= rd.nextInt(100);  ---------->生成0~99
+    double b=rd.nextDouble(); -----------> 0-1
+
+if
+    if(条件){执行}
+
+if---else----
+    if(条件){执行体}else{执行体}
+
+if ----else if-----else
+    if(条件){执行体}else if(条件2){执行体}.....else{执行体}
+
+while
+    while(条件){循环体}
+
+for(初始化变量;条件;增量){循环体}
+    for(int i=0;i<11;i++){}
+
+switch
+    switch(表达式){
+        case 目标值1:
+                执行语句1;
+                break;
+        case 目标值2:
+                执行语句2;
+                break;
+    }
+    
+
+    int week = 2;
+    switch(week){
+        case 1;
+        case 2;
+        case 3;
+        System.out.println("工作日");
+    }
+
+数组
+    int[] x=new int[100]; ------------定义了100个int类型
+
+    元素默认类型
+    byte\short\int\long       0
+    float\double              0.0
+    char                      空（空格）
+    boolean                   false
+    引用
+
+    赋值
+    int[] x=new int[4];
+    x[0] =1;
+    以上为动态初始化（只指定数组长度，由系统自动为元素赋初值）
+
+    静态初始化：定义数组同时就为每个元素赋值
+        ① 类型[] 数组名 = new 类型[]{元素,元素,....}
+        ② 类型[] 数组名 ={元素,元素,......} --------->简便
+            int arr={1,2,3,4};
+            遍历以上
+            for(int i=0;i<arr.length;i++){
+                System.out.println(arr[i]);
+            }
+
+方法
+    声明方法的语法：        String[] args
+    修饰符 返回值类型 方法名(参数类型 参数名1,....){
+        执行语句；
+        return 返回值;(返回值类型为void 可省)
+    }
+
+    方法的重载
+        int a =add(1,2);
+        int b= add(1,2,3);
+        int c=add(1.1,2);
+
+        public static int add(int a,int b){}
+        public static int add(int x,int y,int z){}
+        public staitc double add(double x,int a){}
+
+        ①个数；类型；顺序不同
+        ②返回值不同不算
+
+引用数据类型（类）
+    两种：第一种，Java为我们提供好的类。
+        第二种，自己创建的类。
+
+        格式：public class 类名{
+            数据类型 属性名称1;
+            数据类型 属性名称2;
+            }
+
+            public class Phone{
+                String brand;
+                String color;
+                double size;
+            }
+    使用：导包：放在同一个文件夹下，可以避免导包。
+          创建对象：数据类型 变量名=new 数据类型();
+                    Phone   P     =new Phone();
+
+        调用属性：变量名.属性   p.brand="苹果11";
+
+ArrayList集合(长度可变的集合)
+    导包：import java.util.ArrayList;
+    创建对象：ArrayList<元素类型> 变量名 = new ArrayList<元素类型>();
+            元素类型只能为引用数据类型，不能为基本数据类型。
+                基本数据类型     对应的引用数据类型
+                byte            Byte
+                short           short
+                int             Integer
+                long            Long
+                float           Float
+                double          Double
+                char            Character
+                boolean         Boolean
+            ArrayList<Phone> list = new ArrayList<Phone>();
+    ArrayList集合提供的一些常用方法：
+        list.add(Object obj)   将指定元素obj追加到集合的末尾
+        list.get(int index)    返回集合中指定位置上的元素
+        list.size()            返回集合中的元素个数
+        遍历 for(int i=0;i<list.size();i++){
+            int n=list.get(i);
+            System.out.println(n);
+            }
+    补充方法
+        list.add(int index,Objject obj)   将指定元素obj插入到指定位置
+        list.remove(index)                从指定处删除元素，返回该元素
+        list.clear()                      清空集合中所有元素
+        list.set(int index,Object obj)    用指定元素Obj替代指定元素
+
+ASCII
+    char daxie='A';
+    adxie++;    ----->'B'
+
+数组元素逆序
+
+选择排序（升序）
+
