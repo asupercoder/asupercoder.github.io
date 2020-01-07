@@ -254,3 +254,47 @@ String类
     数量词：X{n,m}
     含义：代表的是X出现至少 n 次，但是不超过 m 次
     例如：匹配规则为"a{5,8}"，那么需要匹配的内容是有5个字符a 到 8个字符a之间
+
+    字符串中涉及正则表达式的常用方法
+        str.matches(String regex)
+            告知此字符串是否匹配给定的正则表达式
+        str.split(String regex)
+            根据给定正则表达式的匹配拆分此字符串
+        str.replaceAll(String regex, String replacement)
+            使用给定的repacement替换词字符串所匹配给定的正则表达式的子字符串。
+
+Date类
+    瞬间，精确到毫秒
+        创建日期对象，把当前的毫秒值转成日期对象
+        Date date = new Date(1600000000000L);
+        System.out.println(date);
+        打印date时调用了 toString()
+
+DateFormat类
+    对时间进行格式化  日期->文本 或者 文本->日期
+        .SimpleDateFormat(String pattern)
+            用给定的模式和默认语言环境的日期格式符号构造SimpleDateFormat
+        .format(Date date)
+            将一个Date格式化为日期/时间字符串
+        
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd"); 对日期进行格式化
+            Date date = new Date(160000000000000L);
+            String str_time =df.format(date);
+            System.out.println(str_time);
+
+            当出现y时，会将y替换成年
+            当出现d时，会将d替换成日
+            当出现M时，会将M替换成月
+            当出现H时，会将H替换成时
+            当出现m时，会将m替换成分
+            当出现s时，会将s替换成秒
+
+        .parse(String source)
+            从给定字符串的开始解析文本，以生成一个日期
+        
+Calendar类
+    日历类，替换掉了许多Date的方法，静态变量，方便获取
+
+    Calendar.getInstance();
+        使用默认时区和语言获得一个日历
+    
